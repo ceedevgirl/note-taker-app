@@ -1,0 +1,111 @@
+.signup-wrapper {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.signup-card {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-color); 
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    .form-group {
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+        color: var(--text-color); 
+      }
+
+      input {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--border-color); 
+        border-radius: 0.5rem;
+        background-color: var(--bg-color); 
+        color: var(--text-color); 
+        transition: border 0.2s, box-shadow 0.2s;
+
+        &:focus {
+          border-color: var(--primary);
+          box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+          outline: none;
+        }
+
+         &.input-error {
+    border-color: red !important;
+    background-color: rgba(255, 0, 0, 0.05); // light red background
+  }
+
+        // Add placeholder styling for dark theme
+        &::placeholder {
+          color: var(--muted-text);
+        }
+      }
+
+      small {
+        color: var(--danger);
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+      }
+    }
+
+    .signup-btn {
+      margin-top: 1.5rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: var(--primary-light);
+      }
+
+      &:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+    }
+
+    .login-redirect {
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--muted-text);
+      margin-top: 1rem;
+      cursor: pointer;
+
+      a {
+        color: var(--primary);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+@use '../src/app/styles/variables' as *;
+
+@use "ngx-toastr/toastr";
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease, font-family 0.3s ease;
+
+  // Default fallback
+  font-family: 'Poppins', sans-serif;
+}
+
+// 👇 Apply font based on user's selection
+body[data-font='sans'] {
+  font-family:  sans-serif;
+}
+
+body[data-font='serif'] {
+  font-family:  serif;
+}
+
+body[data-font='mono'] {
+  font-family: monospace;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}

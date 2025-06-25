@@ -1,0 +1,35 @@
+<div class="dashboard-wrapper">
+  <!-- Search and Filter -->
+  <div class="search-filter-section">
+    <div class="search-filter-bar">
+      <!-- Search Input -->
+      <div class="search-box">
+        <input type="text" placeholder="Search notes..." aria-label="Search notes" />
+        <i class="fas fa-search search-icon"></i>
+      </div>
+
+      <!-- View & Filter Buttons -->
+      <div class="view-buttons">
+        <button id="grid-view" aria-label="Grid view" class="grid-btn">
+          <i class="fas fa-th-large"></i>
+        </button>
+        <button id="list-view" aria-label="List view" class="list-btn">
+          <i class="fas fa-list"></i>
+        </button>
+        <button id="filter-btn" aria-label="Filter notes" class="filter-btn">
+          <i class="fas fa-filter"></i>
+          <span>Filter</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tag Filter -->
+    <div class="tag-filter hidden" id="tags-filter">
+      <button class="tag work" data-tag="work">Work</button>
+      <button class="tag personal" data-tag="personal">Personal</button>
+      <button class="tag ideas" data-tag="ideas">Ideas</button>
+      <button class="tag reminders" data-tag="reminders">Reminders</button>
+      <button class="tag important" data-tag="important">Important</button>
+    </div>
+  </div>
+</div>

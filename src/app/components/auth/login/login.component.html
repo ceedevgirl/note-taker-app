@@ -1,0 +1,32 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <h2>Welcome Back</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <label>Email</label>
+      <input type="email" formControlName="email"   [class.input-error]="hasFieldError('email')"/>
+      <div *ngIf="hasFieldError('email')" class="error-message">
+        {{ getFieldError('email') }}
+      </div>
+
+      <label>Password</label>
+      <input type="password" formControlName="password"  [class.input-error]="hasFieldError('password')"/>
+      <div *ngIf="hasFieldError('password')" class="error-message">
+        {{ getFieldError('password') }}
+      </div>
+
+      <!-- <div *ngIf="errorMessage" class="error-message general-error">
+        {{ errorMessage }}
+      </div> -->
+
+      <button type="submit">Log In</button>
+    </form>
+
+    <p class="signup-redirect">
+      Don't have an account?
+      <a routerLink="/signup">
+        <span class="signup-link">Sign up</span>
+      </a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+@use '../../styles/variables' as *;
+
+.theme-toggle-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--text-color); 
+  padding: 0.5rem;
+ 
+  
+  &:hover {
+
+    transform: translateY(-1px);
+  }
+  
+  &:focus {
+    outline: none;
+   
+  }
+  
+  i {
+     transition: $hover-transition;
+  }
+}
+
+// Responsive adjustments for mobile
+@media (max-width: 768px) {
+  .theme-toggle-btn {
+    font-size: 1rem;
+    padding: 0.4rem;
+  }
+}
