@@ -35,15 +35,18 @@ export class NoteCardComponent {
     this.router.navigate(['/create-note']);
   }
 
-  deleteNote(): void {
-    if (this.note) {
-      this.onDelete.emit(this.note.id);
-    }
+ deleteNote(event: MouseEvent): void {
+  event.stopPropagation();
+  if (this.note) {
+    this.onDelete.emit(this.note.id);
   }
+}
 
-  archiveNote(): void {
-    if (this.note) {
-      this.onArchive.emit(this.note.id);
-    }
+archiveNote(event: MouseEvent): void {
+  event.stopPropagation();
+  if (this.note) {
+    this.onArchive.emit(this.note.id);
   }
+}
+
 }

@@ -1,13 +1,8 @@
 <!-- Dashboard View -->
 <div id="dashboard-view" class="dashboard-container">
-
   <!-- Search and Filter -->
   <div class="search-filter-section">
-
-    <!-- Controls Row -->
     <div class="search-filter-controls">
-
-      <!-- Search Input -->
       <div class="search-input-container">
         <input
           type="text"
@@ -20,7 +15,6 @@
         <i class="fas fa-search search-icon"></i>
       </div>
 
-      <!-- View and Filter Buttons -->
       <div class="view-filter-buttons">
         <button aria-label="Grid view"><i class="fas fa-th-large"></i></button>
         <button aria-label="List view"><i class="fas fa-list"></i></button>
@@ -36,17 +30,16 @@
       </div>
     </div>
 
-    <!-- Tags Filter Dropdown -->
     <div
       id="tags-filter"
       class="tags-filter"
       [class.visible]="showTagsFilter()"
     >
-      <button class="tag" data-tag="work">Work</button>
-      <button class="tag" data-tag="personal">Personal</button>
-      <button class="tag" data-tag="ideas">Ideas</button>
-      <button class="tag" data-tag="reminders">Reminders</button>
-      <button class="tag" data-tag="important">Important</button>
+      <button class="tag" (click)="selectedTag.set('work')">Work</button>
+      <button class="tag" (click)="selectedTag.set('personal')">Personal</button>
+      <button class="tag" (click)="selectedTag.set('ideas')">Ideas</button>
+      <button class="tag" (click)="selectedTag.set('reminders')">Reminders</button>
+      <button class="tag" (click)="selectedTag.set('important')">Important</button>
     </div>
   </div>
 
@@ -63,29 +56,33 @@
         <p class="empty-subtext">
           Create your first note by clicking the "New Note" card or adjust your search/filters.
         </p>
-        <!-- <button class="create-btn" (click)="createNote()">
-          Create Note
-        </button> -->
       </div>
-
       <app-note-card [isNew]="true" (onCreate)="createNote()"></app-note-card>
     </ng-container>
 
     <!-- Notes Present -->
     <ng-container *ngIf="!showCreateForm() && notes().length > 0">
       <app-note-card [isNew]="true" (onCreate)="createNote()"></app-note-card>
+
       <!-- Toast Message -->
-<div *ngIf="showToast()" class="dashboard-toast">
-  {{ toastMessage() }}
-</div>
+      <div *ngIf="showToast()" class="dashboard-toast" [ngClass]="toastType()">
+        {{ toastMessage() }}
+        <button class="toast-close" (click)="showToast.set(false)">×</button>
+      </div>
 
-
-      <app-note-card
+      <!-- Loop through notes -->
+      <div
         *ngFor="let note of filteredNotes()"
-        [note]="note"
-        (onDelete)="deleteNote(note.id)"
-        (onArchive)="archiveNote(note.id)"
-      ></app-note-card>
+        (click)="goToNoteDetails(note.id)"
+        class="note-card-wrapper"
+      >
+       <app-note-card
+  [note]="note"
+  (onDelete)="deleteNote(note.id)"
+  (onArchive)="archiveNote(note.id)"
+></app-note-card>
+
+      </div>
     </ng-container>
 
     <!-- Create Note Form -->
@@ -94,6 +91,5 @@
       (noteCreated)="handleNoteCreated($event)"
       (cancel)="handleCancelCreate()"
     ></app-create-note>
-
   </div>
 </div>

@@ -1,0 +1,175 @@
+@use '../../styles/variables' as *;
+
+.note-editor-container {
+  padding: 2rem;
+  max-width: 960px;
+  margin: 0 auto;
+
+  .top-nav {
+    margin-bottom: 1rem;
+
+    .back-btn {
+      background: none;
+      border: none;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &:hover {
+        color: var(--primary-light);
+      }
+    }
+  }
+
+  .note-editor-card {
+    background-color: var(--card-bg);
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+
+    .note-editor-body {
+      padding: 2rem;
+
+      .title-input {
+        width: 100%;
+        font-size: 1.75rem;
+        font-weight: 700;
+        border: none;
+        background: transparent;
+        margin-bottom: 1rem;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .content-editable {
+        min-height: 200px;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        background-color: var(--bg-color);
+        margin-bottom: 2rem;
+
+        &:focus {
+          outline: 2px solid var(--primary);
+        }
+      }
+
+      .tags-section {
+        .tags-input {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.75rem;
+
+          i {
+            color: gray;
+          }
+
+          input {
+            border: none;
+            background: transparent;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.25rem;
+            width: 100%;
+            font-size: 0.875rem;
+
+            &:focus {
+              outline: none;
+              border-color: var(--primary);
+            }
+          }
+        }
+
+        .tags-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+
+          .tag {
+            background-color: var(--primary-bg);
+            color: var(--primary);
+            padding: 0.3rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            button {
+              background: none;
+              border: none;
+              color: var(--primary);
+              font-size: 0.75rem;
+              cursor: pointer;
+
+              &:hover {
+                color: red;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .note-editor-footer {
+      background-color: var(--footer-bg);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+
+      .last-saved {
+        font-size: 0.875rem;
+        color: var(--muted-text);
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 1rem;
+
+        .archive-btn,
+        .save-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.875rem;
+          border-radius: 0.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          border: none;
+          cursor: pointer;
+
+          i {
+            font-size: 0.875rem;
+          }
+        }
+
+        .archive-btn {
+          background: transparent;
+          border: 1px solid var(--border-color);
+          color: var(--text-color);
+
+          &:hover {
+            background-color: var(--hover-bg);
+          }
+        }
+
+        .save-btn {
+          background-color: var(--primary);
+          color: white;
+
+          &:hover {
+            background-color: var(--primary-light);
+          }
+        }
+      }
+    }
+  }
+}

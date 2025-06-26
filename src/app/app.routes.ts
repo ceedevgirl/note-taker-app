@@ -2,7 +2,11 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
   {
     path: 'login',
     loadComponent: () =>
@@ -16,29 +20,38 @@ export const routes: Routes = [
       import('./components/auth/signup/signup.component').then(
         m => m.SignupComponent
       )
-  }, 
+  },
   {
     path: 'notes-dashboard',
-     canActivate: [authGuard],
-         loadComponent: () =>
-      import('./components/notes-dashboard/notes-dashboard.component').then(m => m.NotesDashboardComponent)
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./components/notes-dashboard/notes-dashboard.component').then(
+        m => m.NotesDashboardComponent
+      )
   },
-{
-  path: 'archived-notes',
-  canActivate: [authGuard], 
-  loadComponent: () =>
-    import('./components/archived-notes/archived-notes.component').then(
-      m => m.ArchivedNotesComponent
-    )
-},
   {
-  path: 'create-note',
+    path: 'archived-notes',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./components/archived-notes/archived-notes.component').then(
+        m => m.ArchivedNotesComponent
+      )
+  },
+  {
+  path: 'notes/:id',
+  canActivate: [authGuard],
   loadComponent: () =>
-    import('./components/create-note/create-note.component').then(
-      m => m.CreateNoteComponent
-    )
+  import('./components/note-detail/note-detail.component').then(m => m.NoteDetailsComponent)
 },
- {
+{
+    path: 'create-note',
+    canActivate: [authGuard], 
+    loadComponent: () =>
+      import('./components/create-note/create-note.component').then(
+        m => m.CreateNoteComponent
+      )
+  },
+  {
     path: '**',
     redirectTo: '/login'
   }

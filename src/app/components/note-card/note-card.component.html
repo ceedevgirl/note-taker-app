@@ -17,10 +17,11 @@
     <div class="card-content">
       <div class="card-header">
         <h3 class="title">{{ note.title }}</h3>
-        <button (click)="archiveNote()" class=" archived-btn icon-btn tooltip" aria-label="Archive note">
-          <i class="fas fa-archive"></i>
-          <span class="tooltip-text">Archive note</span>   
-        </button>
+       <!-- Archive button -->
+<button (click)="archiveNote($event)" class="archived-btn icon-btn tooltip" aria-label="Archive note">
+  <i class="fas fa-archive"></i>
+  <span class="tooltip-text">Archive note</span>   
+</button>
       </div>
 
       <p class="content" [innerHTML]="note.content"></p>
@@ -36,10 +37,11 @@
 
     <div class="card-footer">
       <span>Last edited: {{ lastEdited }}</span>
-      <button (click)="deleteNote()" class="delete-btn icon-btn tooltip" aria-label="Delete note">
-        <i class="fas fa-trash"></i>
-        <span class="tooltip-text">Delete note</span>   
-      </button>
+     <!-- Delete button -->
+<button (click)="deleteNote($event)" class="delete-btn icon-btn tooltip" aria-label="Delete note">
+  <i class="fas fa-trash"></i>
+  <span class="tooltip-text">Delete note</span>   
+</button>
     </div>
   </ng-container>
 </div>

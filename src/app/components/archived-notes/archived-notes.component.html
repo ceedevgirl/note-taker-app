@@ -10,12 +10,15 @@
       class="note-card"
       *ngFor="let note of archivedNotes"
       tabindex="0"
+       (click)="goToNoteDetails(note.id)"
     >
       <div class="card-body">
         <div class="card-header">
           <h3 class="title">{{ note.title }}</h3>
-          <button class="icon-btn" aria-label="Unarchive note" (click)="unarchiveNote(note.id)">
+          <button class="icon-btn unarchive-btn tooltip" 
+           (click)="unarchiveNote(note.id); $event.stopPropagation()" aria-label="Unarchive note" (click)="unarchiveNote(note.id)">
             <i class="fas fa-box-open"></i>
+            <span class="tooltip-text">Unarchive note</span>
           </button>
         </div>
 
@@ -29,11 +32,24 @@
       <div class="card-footer">
        <span>Archived {{ getArchivedAgo(note.updatedAt || '') }}</span>
 
-        <button class="icon-btn" aria-label="Delete note" (click)="deleteNote(note.id)">
+        <button class="icon-btn delete-archived-btn tooltip" 
+        (click)="deleteNote(note.id); $event.stopPropagation()" aria-label="Delete note" (click)="deleteNote(note.id)">
           <i class="fas fa-trash"></i>
+            <span class="tooltip-text">Delete note</span>
+
         </button>
       </div>
     </div>
+    <!-- Toast Message -->
+<div
+  *ngIf="showToast()"
+  class="dashboard-toast"
+  [ngClass]="toastType()"
+>
+  {{ toastMessage() }}
+  <button class="toast-close" (click)="closeToast()">×</button>
+</div>
+
   </div>
 
   <ng-template #emptyState>

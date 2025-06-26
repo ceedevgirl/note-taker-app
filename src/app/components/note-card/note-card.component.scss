@@ -8,12 +8,14 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  transition: transform 0.2s ease;
   color: var(--text-color);
   border: 1px solid var(--border-color);
 
   &:hover {
     transform: translateY(-4px);
+     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   }
 
   &.add-new {

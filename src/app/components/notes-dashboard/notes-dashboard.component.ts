@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NoteCardComponent } from '../note-card/note-card.component';
 import { Note } from '../../../models/note';
 import { CreateNoteComponent } from '../create-note/create-note.component';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-notes-dashboard',
   standalone: true,
@@ -16,10 +16,14 @@ export class NotesDashboardComponent implements OnInit {
   showTagsFilter = signal(false);
   showCreateForm = signal(false);
   notes = signal<Note[]>([]);
+selectedTag = signal<string | null>(null);
+  // notes = signal<Note[]>([]);
 
   toastMessage = signal('');
 showToast = signal(false);
+toastType = signal<'success' | 'error' | 'info'>('success');
 
+constructor(private router: Router) {}
   ngOnInit(): void {
     // Load notes from localStorage
     const savedNotes = localStorage.getItem('notes');
@@ -33,11 +37,16 @@ showToast = signal(false);
   }
 
   // Filter notes based on search term
-  filteredNotes = computed(() =>
-    this.notes().filter(note =>
-      note.title.toLowerCase().includes(this.searchTerm().toLowerCase())
-    )
-  );
+ filteredNotes = computed(() =>
+  this.notes().filter(note =>
+    !note.isArchived &&  // Exclude archived
+    note.title.toLowerCase().includes(this.searchTerm().toLowerCase())
+  )
+);
+
+goToNoteDetails(noteId: string) {
+  this.router.navigate(['/notes', noteId]);
+}
 
   toggleTagsFilter(): void {
     this.showTagsFilter.update(value => !value);
@@ -53,26 +62,35 @@ showToast = signal(false);
       localStorage.setItem('notes', JSON.stringify(updated));
       return updated;
     });
-     this.toastMessage.set('Note deleted!');
-  this.showToast.set(true);
+     this.toastType.set('success'); // or 'error'
+this.toastMessage.set('Note deleted!');
+this.showToast.set(true);
 
   setTimeout(() => this.showToast.set(false), 3000); // Hide after 3s
   }
 
-  archiveNote(noteId: string): void {
-  this.notes.update(notes => {
-    const updated = notes.map(n =>
-      n.id === noteId ? { ...n, isArchived: true } : n
-    );
-    localStorage.setItem('notes', JSON.stringify(updated));
-    return updated;
-  });
+ archiveNote(noteId: string): void {
+  const noteIndex = this.notes().findIndex(n => n.id === noteId);
+  if (noteIndex === -1) {
+    this.toastMessage.set('Error: Note not found.');
+    this.showToast.set(true);
+    return;
+  }
 
-  this.toastMessage.set('Note archived!');
-  this.showToast.set(true);
+  const updated = this.notes().map(note =>
+    note.id === noteId ? { ...note, isArchived: true, updatedAt: new Date() } : note
+  );
 
-  setTimeout(() => this.showToast.set(false), 3000); // Hide after 3s
+  this.notes.set(updated);
+  localStorage.setItem('notes', JSON.stringify(updated));
+
+  this.toastType.set('success');
+this.toastMessage.set('Note archived!');
+this.showToast.set(true);
+
+  setTimeout(() => this.showToast.set(false), 2000);
 }
+
 
 
   handleNoteCreated(note: Note): void {

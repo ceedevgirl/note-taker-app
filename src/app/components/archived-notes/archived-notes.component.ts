@@ -1,12 +1,12 @@
 import { Component, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Note } from '../../../models/note';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-archived-notes',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './archived-notes.component.html',
   styleUrls: ['./archived-notes.component.scss']
 })
@@ -15,6 +15,7 @@ export class ArchivedNotesComponent implements OnInit {
   searchTerm = signal('');
   showToast = signal(false);
   toastMessage = signal('');
+toastType = signal<'success' | 'error'>('success');
 
   constructor(private router: Router) {}
 
@@ -40,16 +41,32 @@ export class ArchivedNotesComponent implements OnInit {
     )
   );
 
-  unarchiveNote(noteId: string) {
-    const updated = this.allNotes().map(note =>
-      note.id === noteId ? { ...note, isArchived: false } : note
-    );
-    this.allNotes.set(updated);
-    localStorage.setItem('notes', JSON.stringify(updated));
-    this.toastMessage.set('Note unarchived');
+  goToNoteDetails(noteId: string) {
+  this.router.navigate(['/notes', noteId]);
+}
+
+ unarchiveNote(noteId: string) {
+  const index = this.allNotes().findIndex(note => note.id === noteId);
+  if (index === -1) {
+    this.toastMessage.set('Note not found');
+    this.toastType.set('error');
     this.showToast.set(true);
     setTimeout(() => this.showToast.set(false), 2000);
+    return;
   }
+
+  const updated = this.allNotes().map(note =>
+    note.id === noteId ? { ...note, isArchived: false, updatedAt: new Date() } : note
+  );
+  this.allNotes.set(updated);
+  localStorage.setItem('notes', JSON.stringify(updated));
+
+  this.toastMessage.set('Note unarchived');
+  this.toastType.set('success');
+  this.showToast.set(true);
+  setTimeout(() => this.showToast.set(false), 2000);
+}
+
 
   getArchivedAgo(date: string | Date): string {
   if (!date) return 'some time ago';
@@ -69,13 +86,25 @@ export class ArchivedNotesComponent implements OnInit {
 
 
   deleteNote(noteId: string) {
-    const updated = this.allNotes().filter(note => note.id !== noteId);
-    this.allNotes.set(updated);
-    localStorage.setItem('notes', JSON.stringify(updated));
-    this.toastMessage.set('Note deleted');
+  const index = this.allNotes().findIndex(note => note.id === noteId);
+  if (index === -1) {
+    this.toastMessage.set('Note not found');
+    this.toastType.set('error');
     this.showToast.set(true);
     setTimeout(() => this.showToast.set(false), 2000);
+    return;
   }
+
+  const updated = this.allNotes().filter(note => note.id !== noteId);
+  this.allNotes.set(updated);
+  localStorage.setItem('notes', JSON.stringify(updated));
+
+  this.toastMessage.set('Note deleted');
+  this.toastType.set('success');
+  this.showToast.set(true);
+  setTimeout(() => this.showToast.set(false), 2000);
+}
+
 
   closeToast() {
     this.showToast.set(false);
