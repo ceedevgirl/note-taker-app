@@ -1,0 +1,10 @@
+<div class="font-toggle" [class.open]="isOpen">
+  <button class="font-toggle-btn" (click)="toggleDropdown()">
+    Aa <i class="fas fa-angle-down"></i>
+  </button>
+  <ul class="font-menu" *ngIf="isOpen">
+    <li (click)="setFont('sans')">Sans-serif</li>
+    <li (click)="setFont('serif')">Serif</li>
+    <li (click)="setFont('mono')">Monospace</li>
+  </ul>
+</div>

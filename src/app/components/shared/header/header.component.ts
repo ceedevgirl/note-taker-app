@@ -1,24 +1,17 @@
-import {
-  Component,
-  HostListener,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component';
-
+import { FontToggleComponent } from '../font-toggle/font-toggle.component';
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, ThemeToggleComponent, RouterLink],
+  imports: [CommonModule, FontToggleComponent, ThemeToggleComponent],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  fontDropdownOpen = false;
+export class HeaderComponent {
   authMenuOpen = false;
 
   constructor(
@@ -27,33 +20,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private eRef: ElementRef
   ) {}
 
-  ngOnInit(): void {
-    const saved = localStorage.getItem('font') || 'sans';
-    document.body.setAttribute('data-font', saved);
-  }
-
-  ngOnDestroy(): void {
-    document.removeEventListener('click', this.handleOutsideClick);
-  }
-
-  get isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
-
-  // Dropdown togglers
-  toggleFontDropdown(): void {
-    this.fontDropdownOpen = !this.fontDropdownOpen;
-  }
-
   toggleAuthMenu(): void {
     this.authMenuOpen = !this.authMenuOpen;
-  }
-
-  // Font switcher
-  setFont(font: string): void {
-    document.body.setAttribute('data-font', font);
-    localStorage.setItem('font', font);
-    this.fontDropdownOpen = false;
   }
 
   logout(): void {
@@ -72,13 +40,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/signup']);
   }
 
-  // Auto-close both dropdowns when clicking outside
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
   @HostListener('document:click', ['$event'])
   handleOutsideClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-
     if (!this.eRef.nativeElement.contains(target)) {
-      this.fontDropdownOpen = false;
       this.authMenuOpen = false;
     }
   }

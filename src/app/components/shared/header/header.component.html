@@ -9,25 +9,11 @@
 
     <div class="right-section">
       <!-- Font Dropdown -->
-<div
-  class="font-toggle"
-  [class.open]="fontDropdownOpen"
-  (mouseenter)="fontDropdownOpen = true"
-  (mouseleave)="fontDropdownOpen = true"
-
-
-   
->
-  <button class="font-toggle-btn" (click)="toggleFontDropdown()">
-    Aa <i class="fas fa-angle-down"></i>
-  </button>
-
-  <ul class="font-menu" *ngIf="fontDropdownOpen">
-    <li (click)="setFont('sans')">Sans-serif</li>
-    <li (click)="setFont('serif')">Serif</li>
-    <li (click)="setFont('mono')">Monospace</li>
-  </ul>
+<div>
+    <app-font-toggle></app-font-toggle>
 </div>
+ 
+
 
       <!-- Theme Toggle Component -->
       <div>
@@ -35,21 +21,16 @@
       </div>
 
      <!-- Avatar / Auth Dropdown -->
-<div
-  class="avatar-menu"
-  [class.open]="authMenuOpen"
-  (mouseleave)="authMenuOpen = true"
->
+<div class="avatar-menu" [class.open]="authMenuOpen">
   <button class="avatar-btn" (click)="toggleAuthMenu()">
     <i class="fas fa-user"></i>
   </button>
-
   <ul class="auth-menu" *ngIf="authMenuOpen">
     <li *ngIf="!isLoggedIn" (click)="goToLogin()">Login</li>
     <li *ngIf="!isLoggedIn" (click)="goToSignup()">Sign Up</li>
     <li *ngIf="isLoggedIn" (click)="logout()">Logout</li>
   </ul>
 </div>
+</div>
     </div> 
-  </div> 
 </header>
