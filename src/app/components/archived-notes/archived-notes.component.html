@@ -1,1 +1,48 @@
-<p>archived-notes works!</p>
+<div class="archived-notes-wrapper">
+    <div class="nav-back">
+  <button routerLink="/notes-dashboard" class="btn-back">
+    ← Back to Notes
+  </button>
+</div>
+
+  <div class="notes-grid" *ngIf="archivedNotes.length > 0; else emptyState">
+    <div
+      class="note-card"
+      *ngFor="let note of archivedNotes"
+      tabindex="0"
+    >
+      <div class="card-body">
+        <div class="card-header">
+          <h3 class="title">{{ note.title }}</h3>
+          <button class="icon-btn" aria-label="Unarchive note" (click)="unarchiveNote(note.id)">
+            <i class="fas fa-box-open"></i>
+          </button>
+        </div>
+
+        <p class="content">{{ note.content }}</p>
+
+        <div class="tags">
+          <span class="tag" *ngFor="let tag of note.tags">{{ tag }}</span>
+        </div>
+      </div>
+
+      <div class="card-footer">
+       <span>Archived {{ getArchivedAgo(note.updatedAt || '') }}</span>
+
+        <button class="icon-btn" aria-label="Delete note" (click)="deleteNote(note.id)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-archive"></i>
+      </div>
+      <h3>No archived notes</h3>
+      <p>Notes you archive will appear here.</p>
+    </div>
+  </ng-template>
+</div>

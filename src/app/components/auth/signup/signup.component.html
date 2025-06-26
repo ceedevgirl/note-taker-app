@@ -64,5 +64,18 @@
         <a routerLink="/login">Log in</a>
       </p>
     </form>
+   <!-- Toast Notification -->
+<div
+  *ngIf="showToast()"
+  class="toast-message"
+  [ngClass]="toastType()"
+>
+  <span>{{ toastMessage() }}</span>
+  <button class="toast-close" (click)="closeToast()">✖</button>
+</div>
+
+
+
+
   </div>
 </div>

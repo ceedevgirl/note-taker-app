@@ -109,3 +109,57 @@
     }
   }
 }
+
+.toast-message {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  z-index: 9999;
+  animation: fadeInUp 0.3s ease-in-out;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 280px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+
+  &.success {
+    background-color: #22c55e; // green
+  }
+
+  &.error {
+    background-color: #ef4444; // red
+  }
+
+  &.info {
+    background-color: #3b82f6; // blue
+  }
+
+  .toast-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+}
+
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+

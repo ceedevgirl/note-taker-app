@@ -1,1 +1,77 @@
-<p>create-note works!</p>
+<div class="create-note-form">
+  <h2 class="form-title">Create New Note</h2>
+
+  <!-- Title -->
+  <input
+    type="text"
+    [(ngModel)]="title"
+    class="note-title-input"
+    placeholder="Note title"
+    aria-label="Note title"
+  />
+
+  <!-- Content -->
+  <textarea
+    rows="5"
+    [(ngModel)]="content"
+    class="note-content-textarea"
+    placeholder="Write your note here..."
+    aria-label="Note content"
+  ></textarea>
+
+  <!-- Tag Input Section -->
+  <div class="tags-section">
+    <div class="tag-input-wrapper">
+      <i class="fas fa-tags tag-icon"></i>
+      <input
+        type="text"
+        [value]="tagInput()"
+        (input)="tagInput.set($any($event.target).value)"
+        (keydown.enter)="addTag()"
+        class="tag-input"
+        placeholder="Add tags..."
+        aria-label="Add tags"
+      />
+    </div>
+
+    <!-- Tag List -->
+    <div class="tag-list">
+      <span
+        *ngFor="let tag of tags()"
+        class="tag-item"
+        tabindex="0"
+      >
+        {{ tag }}
+        <button
+          (click)="removeTag(tag)"
+          class="remove-tag-btn"
+          aria-label="Remove tag"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="form-actions">
+    <button class="btn-cancel" (click)="cancelCreate()">Cancel</button>
+   <button
+  class="btn-save"
+  (click)="saveNote()"
+  [disabled]="saving()"
+>
+  {{ saving() ? 'Saving...' : 'Save Note' }}
+</button>
+
+<!-- Toast Notification -->
+<div
+  *ngIf="showToast()"
+  class="toast-message"
+  [ngClass]="{ 'success': !error(), 'error': error() }"
+>
+  <span>{{ error() ? error() : 'Note created successfully!' }}</span>
+  <button class="toast-close" (click)="closeToast()">✖</button>
+</div>
+  </div>
+</div>

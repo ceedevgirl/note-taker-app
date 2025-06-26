@@ -1,35 +1,99 @@
-<div class="dashboard-wrapper">
+<!-- Dashboard View -->
+<div id="dashboard-view" class="dashboard-container">
+
   <!-- Search and Filter -->
   <div class="search-filter-section">
-    <div class="search-filter-bar">
+
+    <!-- Controls Row -->
+    <div class="search-filter-controls">
+
       <!-- Search Input -->
-      <div class="search-box">
-        <input type="text" placeholder="Search notes..." aria-label="Search notes" />
+      <div class="search-input-container">
+        <input
+          type="text"
+          placeholder="Search notes..."
+          class="search-input"
+          aria-label="Search notes"
+          [value]="searchTerm()"
+          (input)="searchTerm.set($any($event.target).value)"
+        />
         <i class="fas fa-search search-icon"></i>
       </div>
 
-      <!-- View & Filter Buttons -->
-      <div class="view-buttons">
-        <button id="grid-view" aria-label="Grid view" class="grid-btn">
-          <i class="fas fa-th-large"></i>
-        </button>
-        <button id="list-view" aria-label="List view" class="list-btn">
-          <i class="fas fa-list"></i>
-        </button>
-        <button id="filter-btn" aria-label="Filter notes" class="filter-btn">
+      <!-- View and Filter Buttons -->
+      <div class="view-filter-buttons">
+        <button aria-label="Grid view"><i class="fas fa-th-large"></i></button>
+        <button aria-label="List view"><i class="fas fa-list"></i></button>
+        <button
+          id="filter-btn"
+          (click)="toggleTagsFilter()"
+          [attr.aria-expanded]="showTagsFilter()"
+          aria-controls="tags-filter"
+        >
           <i class="fas fa-filter"></i>
           <span>Filter</span>
         </button>
       </div>
     </div>
 
-    <!-- Tag Filter -->
-    <div class="tag-filter hidden" id="tags-filter">
-      <button class="tag work" data-tag="work">Work</button>
-      <button class="tag personal" data-tag="personal">Personal</button>
-      <button class="tag ideas" data-tag="ideas">Ideas</button>
-      <button class="tag reminders" data-tag="reminders">Reminders</button>
-      <button class="tag important" data-tag="important">Important</button>
+    <!-- Tags Filter Dropdown -->
+    <div
+      id="tags-filter"
+      class="tags-filter"
+      [class.visible]="showTagsFilter()"
+    >
+      <button class="tag" data-tag="work">Work</button>
+      <button class="tag" data-tag="personal">Personal</button>
+      <button class="tag" data-tag="ideas">Ideas</button>
+      <button class="tag" data-tag="reminders">Reminders</button>
+      <button class="tag" data-tag="important">Important</button>
     </div>
+  </div>
+
+  <!-- Notes List -->
+  <div class="notes-container">
+
+    <!-- Empty State -->
+    <ng-container *ngIf="notes().length === 0 && !showCreateForm()">
+      <div class="empty-state">
+        <div class="sticky-note-icon">
+          <i class="fas fa-sticky-note"></i>
+        </div>
+        <h3 class="empty-title">No notes found</h3>
+        <p class="empty-subtext">
+          Create your first note by clicking the "New Note" card or adjust your search/filters.
+        </p>
+        <!-- <button class="create-btn" (click)="createNote()">
+          Create Note
+        </button> -->
+      </div>
+
+      <app-note-card [isNew]="true" (onCreate)="createNote()"></app-note-card>
+    </ng-container>
+
+    <!-- Notes Present -->
+    <ng-container *ngIf="!showCreateForm() && notes().length > 0">
+      <app-note-card [isNew]="true" (onCreate)="createNote()"></app-note-card>
+      <!-- Toast Message -->
+<div *ngIf="showToast()" class="dashboard-toast">
+  {{ toastMessage() }}
+</div>
+
+
+      <app-note-card
+        *ngFor="let note of filteredNotes()"
+        [note]="note"
+        (onDelete)="deleteNote(note.id)"
+        (onArchive)="archiveNote(note.id)"
+      ></app-note-card>
+    </ng-container>
+
+    <!-- Create Note Form -->
+    <app-create-note
+      *ngIf="showCreateForm()"
+      (noteCreated)="handleNoteCreated($event)"
+      (cancel)="handleCancelCreate()"
+    ></app-create-note>
+
   </div>
 </div>

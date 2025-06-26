@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +14,12 @@ import { Router } from '@angular/router';
 export class SignupComponent {
   signupForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  // ✅ Toast signals
+  toastMessage = signal('');
+  toastType = signal<'success' | 'error' | 'info'>('info');
+  showToast = signal(false);
+
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.signupForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -22,7 +28,6 @@ export class SignupComponent {
     }, { validators: this.passwordsMatch });
   }
 
-  // ✅ Custom validator to check password match
   passwordsMatch(group: FormGroup) {
     const pass = group.get('password')?.value;
     const confirm = group.get('confirmPassword')?.value;
@@ -30,12 +35,37 @@ export class SignupComponent {
   }
 
   onSubmit(): void {
-    if (this.signupForm.valid) {
-      console.log('Form submitted:', this.signupForm.value);
-      // Navigate or send to API...
-      this.router.navigate(['/login']);
+  if (this.signupForm.valid) {
+    const email = this.signupForm.value.email;
+    const password = this.signupForm.value.password;
+
+    const success = this.authService.signup(email, password);
+
+    if (success) {
+      this.toastMessage.set('Signup successful!');
+      this.toastType.set('success');
+      this.showToast.set(true);
+
+      // Navigate only if signup succeeded
+      setTimeout(() => {
+        this.showToast.set(false);
+        this.router.navigate(['/notes-dashboard']);
+      }, 1000);
     } else {
-      this.signupForm.markAllAsTouched(); // show errors
+      this.toastMessage.set('Email is already registered.');
+      this.toastType.set('error');
+      this.showToast.set(true);
     }
+  } else {
+    this.signupForm.markAllAsTouched();
+    this.toastMessage.set('Please fix the errors in the form.');
+    this.toastType.set('error');
+    this.showToast.set(true);
+  }
+   setTimeout(() => this.showToast.set(false), 3000);
+}
+
+  closeToast(): void {
+    this.showToast.set(false);
   }
 }

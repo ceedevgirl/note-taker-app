@@ -1,11 +1,83 @@
-import { Component } from '@angular/core';
+import { Component, signal, computed, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Note } from '../../../models/note';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-archived-notes',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './archived-notes.component.html',
-  styleUrl: './archived-notes.component.scss'
+  styleUrls: ['./archived-notes.component.scss']
 })
-export class ArchivedNotesComponent {
+export class ArchivedNotesComponent implements OnInit {
+  allNotes = signal<Note[]>([]);
+  searchTerm = signal('');
+  showToast = signal(false);
+  toastMessage = signal('');
 
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    const stored = localStorage.getItem('notes');
+    if (stored) {
+      try {
+        this.allNotes.set(JSON.parse(stored));
+      } catch {
+        this.allNotes.set([]);
+      }
+    }
+  }
+  
+
+  get archivedNotes() {
+    return this.allNotes().filter(n => n.isArchived);
+  }
+
+  filteredNotes = computed(() =>
+    this.archivedNotes.filter(note =>
+      note.title.toLowerCase().includes(this.searchTerm().toLowerCase())
+    )
+  );
+
+  unarchiveNote(noteId: string) {
+    const updated = this.allNotes().map(note =>
+      note.id === noteId ? { ...note, isArchived: false } : note
+    );
+    this.allNotes.set(updated);
+    localStorage.setItem('notes', JSON.stringify(updated));
+    this.toastMessage.set('Note unarchived');
+    this.showToast.set(true);
+    setTimeout(() => this.showToast.set(false), 2000);
+  }
+
+  getArchivedAgo(date: string | Date): string {
+  if (!date) return 'some time ago';
+
+  const now = new Date();
+  const updated = new Date(date);
+  const diffMs = now.getTime() - updated.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return 'today';
+  if (diffDays === 1) return '1 day ago';
+  if (diffDays < 7) return `${diffDays} days ago`;
+
+  const weeks = Math.floor(diffDays / 7);
+  return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
+}
+
+
+  deleteNote(noteId: string) {
+    const updated = this.allNotes().filter(note => note.id !== noteId);
+    this.allNotes.set(updated);
+    localStorage.setItem('notes', JSON.stringify(updated));
+    this.toastMessage.set('Note deleted');
+    this.showToast.set(true);
+    setTimeout(() => this.showToast.set(false), 2000);
+  }
+
+  closeToast() {
+    this.showToast.set(false);
+  }
 }

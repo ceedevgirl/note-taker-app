@@ -5,6 +5,12 @@
         <i class="fas fa-book-open"></i>
         <span>Noted</span>
       </a>
+
+      <!-- Archived Notes Link -->
+      <a routerLink="/archived-notes" class="archived-link">
+        <i class="fas fa-archive"></i>
+        <span> Notes</span>
+      </a>
     </div>
 
     <div class="right-section">
@@ -13,24 +19,14 @@
     <app-font-toggle></app-font-toggle>
 </div>
  
-
-
       <!-- Theme Toggle Component -->
       <div>
         <app-theme-toggle></app-theme-toggle>
       </div>
 
-     <!-- Avatar / Auth Dropdown -->
-<div class="avatar-menu" [class.open]="authMenuOpen">
-  <button class="avatar-btn" (click)="toggleAuthMenu()">
-    <i class="fas fa-user"></i>
-  </button>
-  <ul class="auth-menu" *ngIf="authMenuOpen">
-    <li *ngIf="!isLoggedIn" (click)="goToLogin()">Login</li>
-    <li *ngIf="!isLoggedIn" (click)="goToSignup()">Sign Up</li>
-    <li *ngIf="isLoggedIn" (click)="logout()">Logout</li>
-  </ul>
-</div>
+    <div>
+      <app-avatar-auth></app-avatar-auth>   
+      </div>
 </div>
     </div> 
 </header>

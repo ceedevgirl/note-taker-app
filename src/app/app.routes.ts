@@ -3,7 +3,6 @@ import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-
   {
     path: 'login',
     loadComponent: () =>
@@ -11,7 +10,6 @@ export const routes: Routes = [
         m => m.LoginComponent
       )
   },
-
   {
     path: 'signup',
     loadComponent: () =>
@@ -19,20 +17,29 @@ export const routes: Routes = [
         m => m.SignupComponent
       )
   }, 
-
   {
     path: 'notes-dashboard',
      canActivate: [authGuard],
          loadComponent: () =>
       import('./components/notes-dashboard/notes-dashboard.component').then(m => m.NotesDashboardComponent)
   },
-   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
+{
+  path: 'archived-notes',
+  canActivate: [authGuard], 
+  loadComponent: () =>
+    import('./components/archived-notes/archived-notes.component').then(
+      m => m.ArchivedNotesComponent
+    )
+},
   {
+  path: 'create-note',
+  loadComponent: () =>
+    import('./components/create-note/create-note.component').then(
+      m => m.CreateNoteComponent
+    )
+},
+ {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: '/login'
   }
 ];

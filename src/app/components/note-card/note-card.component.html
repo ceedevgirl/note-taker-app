@@ -1,1 +1,45 @@
-<p>note-card works!</p>
+<div
+  class="note-card"
+  tabindex="0"
+  role="button"
+  [attr.aria-label]="isNew ? 'Create new note' : 'View note'"
+  [ngClass]="{ 'add-new': isNew }"
+  (click)="isNew ? createNote() : null"
+>
+  <!-- Add New Note Card -->
+  <ng-container *ngIf="isNew">
+    <i class="fas fa-plus-circle icon-new"></i>
+    <h3 class="new-title">New Note</h3>
+  </ng-container>
+
+  <!-- Standard Note Card -->
+  <ng-container *ngIf="!isNew && note">
+    <div class="card-content">
+      <div class="card-header">
+        <h3 class="title">{{ note.title }}</h3>
+        <button (click)="archiveNote()" class=" archived-btn icon-btn tooltip" aria-label="Archive note">
+          <i class="fas fa-archive"></i>
+          <span class="tooltip-text">Archive note</span>   
+        </button>
+      </div>
+
+      <p class="content" [innerHTML]="note.content"></p>
+
+      <div class="tags">
+        <span
+          *ngFor="let tag of note.tags"
+          class="tag"
+          tabindex="0"
+        >{{ tag }}</span>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <span>Last edited: {{ lastEdited }}</span>
+      <button (click)="deleteNote()" class="delete-btn icon-btn tooltip" aria-label="Delete note">
+        <i class="fas fa-trash"></i>
+        <span class="tooltip-text">Delete note</span>   
+      </button>
+    </div>
+  </ng-container>
+</div>
