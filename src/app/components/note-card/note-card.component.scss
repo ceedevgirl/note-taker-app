@@ -8,6 +8,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 16rem;
   cursor: pointer;
   transition: transform 0.2s ease;
   color: var(--text-color);
@@ -26,7 +27,7 @@
     height: 16rem;
     padding: 2rem;
     cursor: pointer;
-
+  
     .icon-new {
       font-size: 2rem;
       color: var(--muted-text);

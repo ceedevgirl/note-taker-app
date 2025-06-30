@@ -18,10 +18,15 @@ export class NotesDashboardComponent implements OnInit {
   notes = signal<Note[]>([]);
 selectedTag = signal<string | null>(null);
   // notes = signal<Note[]>([]);
+ viewMode = signal<'grid' | 'list'>('grid');
+ tagOptions = ['work', 'personal', 'ideas', 'reminders', 'important'];
+selectedTags = signal<string[]>([]);
+
 
   toastMessage = signal('');
 showToast = signal(false);
 toastType = signal<'success' | 'error' | 'info'>('success');
+
 
 constructor(private router: Router) {}
   ngOnInit(): void {
@@ -36,16 +41,24 @@ constructor(private router: Router) {}
     }
   }
 
+   setView(mode: 'grid' | 'list') {
+    this.viewMode.set(mode);
+  }
+
   // Filter notes based on search term
  filteredNotes = computed(() =>
   this.notes().filter(note =>
-    !note.isArchived &&  // Exclude archived
-    note.title.toLowerCase().includes(this.searchTerm().toLowerCase())
+    !note.isArchived && (
+      note.title.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+      note.content.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+      note.tags.some(tag => tag.toLowerCase().includes(this.searchTerm().toLowerCase()))
+    )
   )
 );
 
+
 goToNoteDetails(noteId: string) {
-  this.router.navigate(['/notes', noteId]);
+  this.router.navigate(['/note', noteId]);
 }
 
   toggleTagsFilter(): void {
@@ -105,4 +118,15 @@ this.showToast.set(true);
   handleCancelCreate(): void {
     this.showCreateForm.set(false);
   }
+
+ 
+toggleTag(tag: string): void {
+  const current = this.selectedTags();
+  if (current.includes(tag)) {
+    this.selectedTags.set(current.filter(t => t !== tag));
+  } else {
+    this.selectedTags.set([...current, tag]);
+  }
+}
+
 }

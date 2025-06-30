@@ -16,8 +16,21 @@
       </div>
 
       <div class="view-filter-buttons">
-        <button aria-label="Grid view"><i class="fas fa-th-large"></i></button>
-        <button aria-label="List view"><i class="fas fa-list"></i></button>
+         <button
+    [class.active]="viewMode() === 'grid'"
+    (click)="setView('grid')"
+    aria-label="Grid view"
+  >
+    <i class="fas fa-th-large"></i>
+  </button>
+
+  <button
+    [class.active]="viewMode() === 'list'"
+    (click)="setView('list')"
+    aria-label="List view"
+  >
+    <i class="fas fa-list"></i>
+  </button>
         <button
           id="filter-btn"
           (click)="toggleTagsFilter()"
@@ -30,24 +43,33 @@
       </div>
     </div>
 
+    <!-- Tag Filter dropdown -->
     <div
       id="tags-filter"
-      class="tags-filter"
-      [class.visible]="showTagsFilter()"
+      class="tags-filter-dropdown"
+      [class.open]="showTagsFilter()"
     >
-      <button class="tag" (click)="selectedTag.set('work')">Work</button>
-      <button class="tag" (click)="selectedTag.set('personal')">Personal</button>
-      <button class="tag" (click)="selectedTag.set('ideas')">Ideas</button>
-      <button class="tag" (click)="selectedTag.set('reminders')">Reminders</button>
-      <button class="tag" (click)="selectedTag.set('important')">Important</button>
+      <label *ngFor="let tag of tagOptions">
+        <input
+          type="checkbox"
+          [value]="tag"
+          [checked]="selectedTags().includes(tag)"
+          (change)="toggleTag(tag)"
+        />
+        {{ tag | titlecase }}
+      </label>
     </div>
   </div>
 
   <!-- Notes List -->
-  <div class="notes-container">
+  <div class="notes-container"
+   [ngClass]="{
+    'grid-view': viewMode() === 'grid',
+    'list-view': viewMode() === 'list'
+  }">
 
     <!-- Empty State -->
-    <ng-container *ngIf="notes().length === 0 && !showCreateForm()">
+    <ng-container *ngIf="filteredNotes().length === 0 && !showCreateForm()">
       <div class="empty-state">
         <div class="sticky-note-icon">
           <i class="fas fa-sticky-note"></i>
@@ -61,7 +83,7 @@
     </ng-container>
 
     <!-- Notes Present -->
-    <ng-container *ngIf="!showCreateForm() && notes().length > 0">
+    <ng-container *ngIf="!showCreateForm() && filteredNotes().length > 0">
       <app-note-card [isNew]="true" (onCreate)="createNote()"></app-note-card>
 
       <!-- Toast Message -->
@@ -76,12 +98,11 @@
         (click)="goToNoteDetails(note.id)"
         class="note-card-wrapper"
       >
-       <app-note-card
-  [note]="note"
-  (onDelete)="deleteNote(note.id)"
-  (onArchive)="archiveNote(note.id)"
-></app-note-card>
-
+        <app-note-card
+          [note]="note"
+          (onDelete)="deleteNote(note.id)"
+          (onArchive)="archiveNote(note.id)"
+        ></app-note-card>
       </div>
     </ng-container>
 

@@ -1,0 +1,31 @@
+<div class="note-details-container" *ngIf="note()">
+  <button class="back-btn" (click)="goBack()">
+    <i class="fas fa-arrow-left"></i> Back to notes
+  </button>
+
+  <div class="note-card"> 
+    <h1 class="note-title">{{ note()?.title }}</h1>
+    <p class="note-date">Created: {{ note()?.createdAt | date:'medium' }}</p>
+
+    <div class="note-content">
+      {{ note()?.content }}
+    </div>
+
+    <div class="note-tags" *ngIf="note()?.tags?.length">
+      <span class="tag" *ngFor="let tag of note()?.tags">{{ tag }}</span>
+    </div>
+
+    <div class="note-actions-container">
+      
+
+      <div class="note-actions">
+        <button class="edit-btn" (click)="editNote()">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+        <button class="delete-btn" (click)="deleteNote()">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

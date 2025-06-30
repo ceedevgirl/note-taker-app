@@ -1,0 +1,90 @@
+@use '../../../styles/variables' as *;
+
+.note-details-container {
+  max-width: 768px;
+  margin: 2rem auto;
+  padding: 1rem;
+
+  .back-btn {
+    margin-bottom: 1rem;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--primary-light);
+    }
+  }
+
+  .note-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .note-title {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    .note-date {
+      color: var(--muted-text);
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .note-content {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .note-tags {
+      margin-bottom: 1.5rem;
+
+      .tag {
+        display: inline-block;
+        background: var(--tag-bg);
+        color: var(--tag-color);
+        padding: 0.3rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        margin-right: 0.5rem;
+      }
+    }
+
+    .note-actions {
+      display: flex;
+      gap: 1rem;
+
+      .edit-btn, .delete-btn {
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .edit-btn {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      .delete-btn {
+        background-color: var(--danger);
+        color: white;
+      }
+    }
+  }
+}

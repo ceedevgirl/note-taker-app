@@ -42,7 +42,7 @@ toastType = signal<'success' | 'error'>('success');
   );
 
   goToNoteDetails(noteId: string) {
-  this.router.navigate(['/notes', noteId]);
+  this.router.navigate(['/note', noteId]);
 }
 
  unarchiveNote(noteId: string) {

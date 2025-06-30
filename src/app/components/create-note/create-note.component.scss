@@ -91,6 +91,68 @@
         }
       }
     }
+
+   .tag-dropdown-wrapper {
+  position: relative;
+
+  .tag-dropdown-toggle {
+    background: none;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border-radius: $border-radius;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+
+    &:hover {
+      background-color: var(--hover-bg);
+    }
+  }
+
+  .tag-dropdown {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: $border-radius;
+    padding: 1rem;
+    z-index: 20;
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 200px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+
+      input[type='checkbox'] {
+        accent-color: var(--primary);
+        transform: scale(1.1);
+      }
+    }
+
+    &.open {
+      display: flex;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+}
+ 
   }
 
   .form-actions {
@@ -109,7 +171,7 @@
 
     .btn-cancel {
       background-color: red;
-      color: var(--text-color);
+      color: #fff;
 
       &:hover {
         background-color: var(--danger);

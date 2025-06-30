@@ -21,11 +21,25 @@ export class CreateNoteComponent {
   showToast = signal(false);
   error = signal('');
 
+  tagOptions = ['work', 'personal', 'ideas', 'reminders', 'important']; // You can customize
+showTagDropdown = signal(false);
+
   @Output() cancel = new EventEmitter<void>();
   @Output() noteCreated = new EventEmitter<Note>();
 
   constructor(private router: Router) {}
 
+  toggleTagDropdown(): void {
+  this.showTagDropdown.update(value => !value);
+}
+
+toggleTag(tag: string): void {
+  if (this.tags().includes(tag)) {
+    this.tags.update(t => t.filter(tg => tg !== tag));
+  } else {
+    this.tags.update(t => [...t, tag]);
+  }
+}
   addTag(): void {
     const tag = this.tagInput().trim();
     if (tag && !this.tags().includes(tag)) {

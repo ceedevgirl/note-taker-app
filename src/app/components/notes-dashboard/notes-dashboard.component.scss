@@ -9,6 +9,7 @@
 // --- Search + Filter ---
 .search-filter-section {
   margin-bottom: $spacing-xl;
+  position: relative;
 
   .search-filter-controls {
     display: flex;
@@ -95,39 +96,66 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
 
-    .tag {
-      padding: 0.3rem 0.8rem;
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      cursor: pointer;
-      background-color: var(--primary-bg);
-      color: var(--primary);
-      border: none;
-      transition: background-color 0.2s ease;
+.tags-filter-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 200px;
+  z-index: 50;
 
-      &:hover {
-        background-color: var(--primary);
-        color: white;
-      }
+  // Hidden state
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+
+    input[type='checkbox'] {
+      accent-color: var(--primary);
+      transform: scale(1.1);
     }
   }
+
+  &.open {
+    display: flex; 
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 }
 
 // --- Notes Grid ---
 .notes-container {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 1.5rem;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  &.grid-view {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
+  &.list-view {
+    grid-template-columns: 1fr;
   }
 }
+
 
 // --- Empty State Styling ---
 .empty-state {
@@ -158,20 +186,6 @@
     font-size: 0.95rem;
   }
 
-  .create-btn {
-    background-color: var(--primary);
-    color: #fff;
-    padding: 0.5rem 1.25rem;
-    border: none;
-    border-radius: $border-radius;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: var(--primary-light);
-    }
-  }
 }
 
  

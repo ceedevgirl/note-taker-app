@@ -1,0 +1,45 @@
+@use '../../../styles/variables' as *;
+
+footer {
+ background-color: var(--bg-color);
+  position: sticky;
+  padding: 1.5rem;
+  border-top: 1px solid gray;
+  color: var(--text-muted);
+  width: 100%;
+   box-shadow: 0 2px 8px $shadow-light;
+  backdrop-filter: blur(8px);
+  transition: $hover-transition;
+  margin-top: auto; // for sticky layout
+  text-align: center;
+
+  .footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.875rem;
+  }
+
+  // Dark mode
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--bg-dark);
+    // border-color: var(--border-dark);
+    color: var(--text-muted-dark);
+
+      &:hover {
+        color: var(--primary-dark);
+      }
+    }
+  }
+
+  // Desktop (min-width: 768px)
+  @media (min-width: 768px) {
+    .footer-container {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
