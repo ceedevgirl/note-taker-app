@@ -1,16 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed, ComponentFixture } from '@angular/core/testing'; // ✅ ADD THIS
 import { HeaderComponent } from './header.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  let component: HeaderComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderComponent]
-    })
-    .compileComponents();
+      imports: [HeaderComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({}),
+            snapshot: { paramMap: { get: () => null } }
+          }
+        }
+      ]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;

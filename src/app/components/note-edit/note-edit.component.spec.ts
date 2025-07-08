@@ -1,18 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoteEditComponent } from './note-edit.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { NoteDetailsComponent } from '../note-details/note-details/note-details.component';
-
-describe('NoteDetailComponent', () => {
-  let component: NoteDetailsComponent;
-  let fixture: ComponentFixture<NoteDetailsComponent>;
+describe('NoteEditComponent', () => {
+  let component: NoteEditComponent;
+  let fixture: ComponentFixture<NoteEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NoteDetailsComponent]
-    })
-    .compileComponents();
+      imports: [NoteEditComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: (key: string) => 'mock-note-id'
+              }
+            }
+          }
+        },
+        {
+          provide: Router,
+          useValue: {
+            navigate: jasmine.createSpy('navigate')
+          }
+        }
+      ]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(NoteDetailsComponent);
+    fixture = TestBed.createComponent(NoteEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

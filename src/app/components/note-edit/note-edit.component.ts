@@ -6,7 +6,7 @@ import { Note } from '../../../models/note';
 
 @Component({
   standalone: true,
-  selector: 'app-note-edits',
+  selector: 'app-note-edit',
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './note-edit.component.html',
   styleUrls: ['./note-edit.component.scss']

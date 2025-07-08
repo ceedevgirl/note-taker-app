@@ -17,7 +17,7 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-// 👇 Apply font based on user's selection
+// Apply font based on user's selection
 body[data-font='sans'] {
   font-family:  sans-serif;
 }

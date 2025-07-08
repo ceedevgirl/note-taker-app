@@ -16,9 +16,8 @@ export class AuthService {
     this.initializeDefaultUser();
   }
 
-  /**
-   * Attempt login with provided credentials
-   */
+ 
+   //Attempt login with provided credentials
   login(email: string, password: string): boolean {
     const trimmedEmail = email.trim().toLowerCase();
     const users = this.getUsers();
@@ -34,9 +33,8 @@ export class AuthService {
     return false;
   }
 
-  /**
-   * Register a new user
-   */
+ 
+   // Register a new user
   signup(email: string, password: string): boolean {
     const trimmedEmail = email.trim().toLowerCase();
     const users = this.getUsers();
@@ -52,30 +50,26 @@ export class AuthService {
     return true;
   }
 
-  /**
-   * Log the user out
-   */
+  
+   // Log the user out
   logout(): void {
     localStorage.removeItem(this.currentUserKey);
   }
 
-  /**
-   * Returns true if a user is currently logged in
-   */
+  
+   // Returns true if a user is currently logged in
   isLoggedIn(): boolean {
     return !!localStorage.getItem(this.currentUserKey);
   }
 
-  /**
-   * Get currently logged in user, or null if not logged in
-   */
+  
+   // Get currently logged in user, or null if not logged in
   getCurrentUser(): User | null {
     const userJson = localStorage.getItem(this.currentUserKey);
     return userJson ? JSON.parse(userJson) : null;
   }
 
-  // -------- Private Helpers -------- //
-
+  //  Private Helpers 
   private getUsers(): User[] {
     const usersJson = localStorage.getItem(this.localStorageKey);
     return usersJson ? JSON.parse(usersJson) : [];
@@ -89,9 +83,9 @@ export class AuthService {
     localStorage.setItem(this.currentUserKey, JSON.stringify(user));
   }
 
-  /**
-   * Add a default test user if none exists (optional)
-   */
+  
+   // Add a default test user if none exists (optional)
+   
   private initializeDefaultUser(): void {
     const users = this.getUsers();
     if (users.length === 0) {
